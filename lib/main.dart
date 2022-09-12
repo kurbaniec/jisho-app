@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jisho_app/bloc/history_bloc.dart';
 import 'package:jisho_app/bloc/history_event.dart';
+import 'package:jisho_app/webview.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => HistoryBloc()..add(LoadHistories()))
+          BlocProvider(
+              lazy: false,
+              create: (context) => HistoryBloc()..add(LoadHistories()))
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -31,7 +34,7 @@ class MyApp extends StatelessWidget {
             // is not restarted.
             primarySwatch: Colors.blue,
           ),
-          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+          home: const WebViewApp(),
         ));
   }
 }
