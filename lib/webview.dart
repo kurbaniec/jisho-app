@@ -1,4 +1,4 @@
-
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -13,6 +13,10 @@ class WebViewApp extends StatefulWidget {
 }
 
 class _WebViewAppState extends State<WebViewApp> {
+  late WebViewController _controller;
+
+  final Completer<WebViewController> _controllerCompleter =
+  Completer<WebViewController>();
 
   @override
   void initState() {
@@ -22,15 +26,41 @@ class _WebViewAppState extends State<WebViewApp> {
     super.initState();
   }
 
+  // WebView naviation
+  // See: https://stackoverflow.com/a/63540436
+  Future<bool> _onWillPop(BuildContext context) async {
+    if (await _controller.canGoBack()) {
+      _controller.goBack();
+      return Future.value(false);
+    } else {
+      return Future.value(true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter WebView'),
-      ),
-      body: const WebView(
-        initialUrl: 'https://jisho.org/',
-      ),
+    return WillPopScope(
+      onWillPop: () => _onWillPop(context),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Flutter WebView'),
+        ),
+        body: WebView(
+          initialUrl: 'https://jisho.org/',
+          onWebViewCreated: (WebViewController webViewController) {
+            _controllerCompleter.future.then((value) => _controller = value);
+            _controllerCompleter.complete(webViewController);
+          },
+          onPageStarted: (url) {
+            print("hey");
+          },
+          onPageFinished: (url) {
+            print("finished");
+          },
+        )
+        ,
+      )
+      ,
     );
   }
 }
