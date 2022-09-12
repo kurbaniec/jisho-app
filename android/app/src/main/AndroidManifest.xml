@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dev.urbaniec.jisho_app">
    <application
-        android:label="jisho_app"
+        android:label="Jisho\nアプリ"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
