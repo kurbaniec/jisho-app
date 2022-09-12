@@ -7,7 +7,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   HistoryBloc() : super(HistoryInitial()) {
     on<LoadHistories>((event, emit) {
       // TODO call load repo
-      print("Here");
       emit(const HistoryLoaded(histories: []));
     });
     on<AddHistory>((event, emit) {
