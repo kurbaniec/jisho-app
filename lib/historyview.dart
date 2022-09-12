@@ -23,9 +23,11 @@ class _HistoryViewState extends State<HistoryView> with SingleTickerProviderStat
           // TODO: load history
         }
         if (state is HistoryLoaded) {
-          for (var h in state.histories) {
-            texts.add(Text("${h.url} ${h.visited}"));
-          }
+          state.histories.forEach((key, value) {
+            for (var h in value) {
+              texts.add(Text("${h.url} ${h.visited}"));
+            }
+          });
         }
         return SimpleDialog(
           title: const Text('History'),

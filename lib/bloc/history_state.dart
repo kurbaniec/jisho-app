@@ -13,7 +13,7 @@ abstract class HistoryState extends Equatable {
 class HistoryInitial extends HistoryState {}
 
 class HistoryLoaded extends HistoryState {
-  final List<WebHistory> histories;
+  final Map<String, List<WebHistory>> histories;
 
   const HistoryLoaded({required this.histories});
 
