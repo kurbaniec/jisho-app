@@ -16,7 +16,7 @@ class _WebViewAppState extends State<WebViewApp> {
   late WebViewController _controller;
 
   final Completer<WebViewController> _controllerCompleter =
-  Completer<WebViewController>();
+      Completer<WebViewController>();
 
   @override
   void initState() {
@@ -42,25 +42,23 @@ class _WebViewAppState extends State<WebViewApp> {
     return WillPopScope(
       onWillPop: () => _onWillPop(context),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Flutter WebView'),
-        ),
-        body: WebView(
-          initialUrl: 'https://jisho.org/',
-          onWebViewCreated: (WebViewController webViewController) {
-            _controllerCompleter.future.then((value) => _controller = value);
-            _controllerCompleter.complete(webViewController);
-          },
-          onPageStarted: (url) {
-            print("hey");
-          },
-          onPageFinished: (url) {
-            print("finished");
-          },
+        body: SafeArea(
+          child: WebView(
+            initialUrl: 'https://jisho.org/',
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) {
+              _controllerCompleter.future.then((value) => _controller = value);
+              _controllerCompleter.complete(webViewController);
+            },
+            onPageStarted: (url) {
+              print("hey");
+            },
+            onPageFinished: (url) {
+              print("finished");
+            },
+          ),
         )
-        ,
-      )
-      ,
+      ),
     );
   }
 }
